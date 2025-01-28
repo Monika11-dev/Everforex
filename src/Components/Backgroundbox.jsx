@@ -21,7 +21,12 @@ const useStyles = makeStyles({
       fontSize:'14px !important',
       '& div': {
         padding : "0px",
+        paddingLeft:"10px !important",
+        color: "#011945 !important",
       },
+      '& svg': {
+         color: "#011945 !important",
+      }
     },
     searchBox: {
       backgroundColor: "#F7F8FC !important",
@@ -32,6 +37,31 @@ const useStyles = makeStyles({
       '& input': {
         padding : "4px",
       }
+    },
+    inputBoxStyle: {
+        position: 'relative',
+       
+        '& input.searchInput': {
+            backgroundColor: "#F7F8FC !important",
+            color: '#011945',
+
+            fontSize: '12px',
+            border: "1px solid #0638920A !important",
+            padding: '7px 29px 7px 30px',
+            width: "60%",
+            borderRadius: '4px',
+            letterSpacing: '.5px',
+            fontWeight: '500',
+            textOverflow: 'ellipsis',
+        },
+        '& svg': {
+            position: 'absolute',
+            top: '50%',
+            left: '5px',
+            transform: 'translateY(-50%)',
+            color: '#063892 !important',
+            fontSize: '23px',
+        },
     },
   });
 
@@ -57,22 +87,25 @@ const handleChange = (e) => {
               onChange={handleChange}
               name="deposit"
             >
-              <MenuItem value={10}>Deposit Request</MenuItem>
+              <MenuItem value={10}>Deposit Transaction</MenuItem>
               <MenuItem value={20}>Withdrawl Transaction</MenuItem>
               <MenuItem value={30}>Withdrawl Request</MenuItem>
             </Select>
           </FormControl>
           </Grid>
           <Grid item xs={6} md={8}>
-            <TextField 
-              label="Search here"
+            <Box className={classes.inputBoxStyle}>
+              <input type="text" placeholder="Search from Transaction" className="searchInput" />
+              <span><SearchIcon /></span>
+            </Box>
+            {/* <TextField 
               className={classes.searchBox} 
               InputProps={{
                 startAdornment: <InputAdornment position='start'>
                                   <SearchIcon 
                                     style={{color:"#063892"}}/>
                                 </InputAdornment>}}>
-            </TextField>        
+            </TextField>         */}
           </Grid>      
         </Grid>       
       </Box>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@mui/styles';
-import {Grid,Box,Typography,Button,TextField,InputAdornment,Pagination,Modal,InputLabel,Divider } from '@mui/material';
+import {Grid,Box,Typography,Button,TextField,InputAdornment,Pagination,Modal,InputLabel,MenuItem,FormControl,Select,Divider } from '@mui/material';
 import Backgroundbox from './Backgroundbox';
 import {userList} from '../Database/userData/userList';
 import SearchIcon from '@mui/icons-material/Search';
@@ -15,6 +15,12 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Slide from '@mui/material/Slide';
 import CreateIcon from '@mui/icons-material/Create';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 const useStyles = makeStyles({
     dashboard: {
@@ -36,17 +42,19 @@ const useStyles = makeStyles({
       color: "#063982",
       fontWeight: "bold !important", 
       textAlign: "center", 
+      textTransform: "capitalize !important",
       '&:hover': {
         textDecoration:"underline",
         cursor:"pointer",
       }     
     },
     tableOther: {
-      color: "#011945",
+      color: "white",
       fontSize: "10px",
-      padding: "5px 8px",
+      padding: "5px 10px",
       borderRadius: "4px",  
-      margin:"auto",     
+      margin:"auto", 
+      letterSpacing:"0.2px !important",    
     },
     tableDollar: {
       color: "#011945",
@@ -90,6 +98,8 @@ const useStyles = makeStyles({
       backgroundColor:"white",
       marginBottom: "5px",
       padding:"5px 40px",
+      height:"600px",
+      overflow:"scroll",
       '& table thead tr th:first-child': {
         width: "50%",
       },
@@ -125,10 +135,12 @@ const useStyles = makeStyles({
         padding:0,
         
       },
-      '& table tbody tr td:nth-child(2) span svg': {
+      '& table tbody tr td:nth-child(2) svg': {
+         verticalAlign:'middle',
          fill: "green",
       },
-      '& table tbody tr td:nth-child(3) span svg': {
+      '& table tbody tr td:nth-child(3) svg': {
+         verticalAlign:'middle',
          fill: "red",
       },
       // '& table tbody tr td:nth-child(2) span': {
@@ -166,7 +178,7 @@ const useStyles = makeStyles({
       position: 'absolute',
       top: '0',
       right: '0',
-      width: '70vw',
+      width: '40vw',
       height:'100vh',
       background: "white",    
       border:"none",
@@ -185,23 +197,30 @@ const useStyles = makeStyles({
 
     },
     modalCloseBtn: {
-        width:"46px !important",
-        height:"46px !important",
+        width:"43px !important",
+        height:"43px !important",
         fill:'white !important',
     },
     formGrid: {
-      margin:"0px 0px 20px 0px !important",
-      padding:"10px 20px",
+      margin:"0px 0px 10px 0px !important",
+      padding:"0px 20px 10px 20px",
       '& div': {
         padding:0,
       },
     },
     formInput: {
+      '& label': {
+         fontSize: "16px",
+         marginBottom:"8px",
+         color:"#011945",
+         opacity:0.6,
+      },
       
-      '& div div input': {
+      '& span': {
          color: "#011945 !important",
          fontSize: "15px",
          padding:0,
+         fontWeight:"600",
       } ,
     },
     formEdit: {
@@ -212,7 +231,7 @@ const useStyles = makeStyles({
 
       },
       '& div div': {
-        border:"1px solid #3B3B3B6",
+        border:"1px solid #3B3B3B6 !important",
         backgroundColor:'#F6F7F7',
         padding: "5px 2px 5px 10px",
       },
@@ -229,29 +248,48 @@ const useStyles = makeStyles({
       }
     },
     formAmount: {
-       '& div div input': {
+       '& span': {
          color: "#61AD61 !important",
          fontSize: "15px",
          padding:0,
-        }    
+         fontWeight:"bold",
+         
+        },
+        '& label': {         
+          fontSize: "16px",
+          marginBottom:"8px",
+          color:"#011945",
+          opacity:0.6,
+        },    
     },
     userName: {
       '& label': {
         color: "#011945 !important",
         fontWeight:"bold",
+        marginBottom:"5px",
       },
-      '& div div input': {
-        color: "grey",
+      '& span': {
+        color: "#011945",
         padding:0,
+        opacity:0.6,
+        fontSize:"16px",
       }
     },
     formSubhead: {
-       padding: "10px 10px 10px 35px",
+       padding: "5px 10px 5px 35px",
        fontFamily:"helvetica",
-       color: "grey",
+       color: "#011945",
+       opacity:0.5,
        fontWeight:"500",
-       marginTop:"20px !important",
-       fontSize:"18px",
+      //  marginTop:"18px !important",
+       fontSize:"18px",  
+       mx: 2, 
+       whiteSpace: 'nowrap',
+    },
+    divider: {
+      display: 'flex', 
+      alignItems: 'center',
+      margin: "0px 15px 0px 0px",
     },
     formInitialStatus: { 
       borderRadius: '2px',
@@ -260,17 +298,95 @@ const useStyles = makeStyles({
         padding:"2px 5px",
         
       }
+    },
+    accountTabs: {
+      '& div': {
+        justifyContent: "space-around",
+        backgroundColor: "white",
+      },
+      '& div button': {
+        textTransform: "capitalize",
+        color:"#011945",
+        opacity:0.65,
+      },
+      '& div button:selected': {
+        color:"#063892",
+      },
+    },
+    accountTabpanel: {
+      padding:"10px !important",
+    },
+    Status: {
+      '& label': {
+         fontSize: "16px",
+         marginBottom:"8px",
+         color:"#011945",
+         opacity:0.6,
+      },
+      '& span': {
+        backgroundColor: "#eb8015",
+        color: "white",
+        borderRadius: "4px",
+        padding: "2px 10px",
+      }    
+    },
+    formAmountCleared: {
+      display: "flex",
+      backgroundColor:"#F6F6F6",
+      border:"1px solid #0618380D",
+      padding: "5px 12px !important",
+      borderRadius:'8px',
+      justifyContent:"space-between",
+      alignContent:"center",
+      '& span span svg': {
+        height:'0.7em',
+        width:'0.7em',
+        marginRight:'4px',
+        fill: "#063892",
+      },
+      '& span': {
+        alignSelf: "center",
+        alignContent:'center',
+        display:'flex',
+        color:"#011945",
+      },
+      '& span:nth-child(2)': {
+        color:'#063892',
+      }
+      
+    },
+    action: {
+      backgroundColor: "#F6F6F6",
+      borderRadius: '8px',
+      '& input': {
+        border: "none",
+      },
+      '& div' : {
+         padding: "2px 12px !important",
+         color: "lightslategrey",
+      },
+      '& div svg': {
+         fill: "#171717",
+      }
+    
     }
-    // divider: {
-    //   display:'inline-block',
-    //   width: "80%",
-    // }
 
   });
 
 const Dashboard = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState('1');
+  const [action, setAction] = React.useState(10);
+
+  const handleActionChange = (event) => {
+    setAction(event.target.value);
+  };
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
@@ -304,24 +420,30 @@ const Dashboard = () => {
                       <Grid container spacing={2} className={classes.formGrid}>
                          <Grid item xs={12} md={12} className={classes.userName}>
                             <InputLabel >John Smith</InputLabel>
-                            <TextField value="johnsmith@gmail.com" variant="standard" disabled/>
+                            <Typography variant="span">johnsmith@gmail.com</Typography>
+                            {/* <TextField value="johnsmith@gmail.com" variant="standard" disabled/> */}
                          </Grid>
                          <Grid item xs={6} lg={4}  className={classes.formInput}>
                             <InputLabel>Transaction Date</InputLabel>
-                            <TextField variant="standard" type="date" disabled/>
+                            <Typography variant="span">15/01/2025</Typography>
+                           
                          </Grid>
                          <Grid item xs={6} lg={4}  className={classes.formInput}>
                             <InputLabel>Transaction Type</InputLabel>
-                            <TextField value="Deposit Type" variant="standard" disabled/>
+                            <Typography variant="span">Deposit Type</Typography>
+                            
                          </Grid>
                          <Grid item xs={6} lg={4} className={classes.formAmount}>
                             <InputLabel>Transaction Amount</InputLabel>
-                            <TextField   value="123 USD" variant="standard" disabled/>
+                            <Typography variant="span">123 USD</Typography>
+                            
                          </Grid>
                       </Grid>
-                      <Typography variant="p" className={classes.formSubhead}>Sender Details</Typography> 
-                      
-
+                      <Box className={classes.divider}>
+                         <Typography variant="p" className={classes.formSubhead}>Sender Details</Typography>                       
+                         <Divider sx={{ flex: 1 }} />
+                      </Box>
+                                        
                       <Grid container spacing={2} className={classes.formGrid}>
                          <Grid item xs={6} md={4} className={classes.formEdit}>
                           <InputLabel >AUD Borrow Rate</InputLabel>
@@ -375,21 +497,55 @@ const Dashboard = () => {
                          </Grid>
                          
                       </Grid>
-
-                      <Typography variant="p" className={classes.formSubhead}>Matches</Typography> 
+                     
+                      <Box className={classes.divider}>
+                         <Typography variant="p" className={classes.formSubhead}>Matches</Typography>                       
+                         <Divider sx={{ flex: 1 }} />
+                      </Box>
 
                       <Grid container spacing={2} className={classes.formGrid}>
                          <Grid item xs={6} lg={4}  className={classes.formInput}>
                             <InputLabel>Bank</InputLabel>
-                            <TextField variant="standard" value="Bank of America" disabled/>
+                            <Typography variant="span">Bank of America</Typography>
+                           
                          </Grid>
                          <Grid item xs={6} lg={4}  className={classes.formInput}>
                             <InputLabel>Account Number</InputLabel>
-                            <TextField variant="standard" value="2121227673543" disabled/>
+                            <Typography variant="span">21324234565676576</Typography>
+                           
                          </Grid>
-                         <Grid item xs={6} lg={4} >
+                         <Grid item xs={6} lg={4} className={classes.Status}>
                             <InputLabel>Status</InputLabel>
-                            <TextField className={classes.formInitialStatus + ' ' + classes.initialStatusBack} variant="standard" value="Initialised" disabled/>
+                            <Typography variant="span">Initialised</Typography>
+                         </Grid>
+                      </Grid>
+
+                      <Box className={classes.divider}>
+                         <Typography variant="p" className={classes.formSubhead}>Action</Typography>                       
+                         <Divider sx={{ flex: 1 }} />
+                      </Box> 
+                      <Grid container spacing={2} className={classes.formGrid}>
+                         <Grid item xs={8} lg={8} >
+                           <Box className={classes.formAmountCleared}>
+                              <Typography variant="span">123456 USD</Typography>
+                              <Typography variant="span"><span><CheckCircleOutlineIcon/></span>cleared</Typography>
+                           </Box>
+                         </Grid>
+                         <Grid item xs={8} lg={8} >
+                         <FormControl fullWidth className={classes.action}>
+                            
+                            <Select
+                              
+                              value={action}
+                              name="action"
+                              onChange={handleActionChange}
+                            >
+                              <MenuItem value={10}>Select Action</MenuItem>
+                              <MenuItem value={20}>Reject Transaction</MenuItem>
+                              <MenuItem value={30}>Confirm Transaction</MenuItem>
+                              
+                            </Select>
+                          </FormControl>
                          </Grid>
                       </Grid>
                       
@@ -424,7 +580,7 @@ const Dashboard = () => {
         <Pagination count={5} className={classes.page} />
       </Grid>
       <Grid className={classes.gridPadding} item xs={12} md={4}>
-        <Box component="div" className={classes.internalLinks}>
+        {/* <Box component="div" className={classes.internalLinks}>
            <Box className={classes.linkBtnBox}>
             <Button className={classes.linkBtn}>Exchange Rates</Button>
            </Box>
@@ -434,49 +590,73 @@ const Dashboard = () => {
            <Box className={classes.linkBtnBox}>
             <Button className={classes.linkBtn}>Cashbox Accounts</Button>
            </Box>        
+        </Box> */}
+        <Box sx={{ width: '100%', typography: 'body1' }}>
+            <TabContext value={value}>
+              <Box>
+                <TabList className={classes.accountTabs} onChange={handleChange} aria-label="lab API tabs example">
+                  <Tab label="Exchange Rates" value="1" />
+                  <Tab label="Bank Accounts" value="2" />
+                  <Tab label="Cashbox Accounts" value="3" />
+                </TabList>
+              </Box>
+              <TabPanel className={classes.accountTabpanel} value="1">
+                  <Box component="div" className={classes.searchBox}>
+                  <Box className={classes.linkBtnBox}>
+                      <TextField 
+                        fullWidth
+                        className={classes.searchInput}
+                        variant="outlined"
+                        InputProps={{
+                          startAdornment: <InputAdornment position='start'>
+                                            <SearchIcon 
+                                              style={{color:"#063892"}}/>
+                                          </InputAdornment>}}>
+                      </TextField>   
+                  </Box>       
+                  </Box>
+                  <Box component="div" className={classes.tradeBox}>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Currency</TableCell>
+                          <TableCell >Sell</TableCell>
+                          <TableCell >Buy</TableCell>        
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {trade.map((row) => (
+                          <TableRow
+                            key={row.key}
+                          >
+                            <TableCell component="th" scope="row">
+                              <Typography variant="span">{row.currency1}</Typography>
+                              <Typography variant="span">/</Typography>
+                              <Typography variant="span">{row.currency2}</Typography>
+                              <Typography>{row.detail}</Typography>
+                            </TableCell>
+                            <TableCell>{row.sell}<KeyboardArrowDownIcon/></TableCell>
+                            <TableCell>{row.buy}<KeyboardArrowUpIcon/></TableCell>
+                          
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </Box>
+              </TabPanel>
+              <TabPanel value="2">
+                <Box component="div" className={classes.tradeBox}>
+                  Item Two
+                </Box>           
+              </TabPanel>
+              <TabPanel value="3">
+                <Box component="div" className={classes.tradeBox}>
+                  Item Three
+                </Box>           
+              </TabPanel>
+            </TabContext>
         </Box>
-        <Box component="div" className={classes.searchBox}>
-           <Box className={classes.linkBtnBox}>
-              <TextField 
-                fullWidth
-                className={classes.searchInput}
-                variant="outlined"
-                InputProps={{
-                  startAdornment: <InputAdornment position='start'>
-                                    <SearchIcon 
-                                      style={{color:"#063892"}}/>
-                                  </InputAdornment>}}>
-              </TextField>   
-           </Box>       
-        </Box>
-        <Box component="div" className={classes.tradeBox}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Currency</TableCell>
-                <TableCell >Sell</TableCell>
-                <TableCell >Buy</TableCell>        
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {trade.map((row) => (
-                <TableRow
-                  key={row.key}
-                >
-                  <TableCell component="th" scope="row">
-                    <Typography variant="span">{row.currency1}</Typography>
-                    <Typography variant="span">/</Typography>
-                    <Typography variant="span">{row.currency2}</Typography>
-                    <Typography>{row.detail}</Typography>
-                  </TableCell>
-                  <TableCell>{row.sell}<span><KeyboardArrowDownIcon/></span></TableCell>
-                  <TableCell>{row.buy}<span><KeyboardArrowUpIcon/></span></TableCell>
-                
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Box>
+        
       </Grid>        
     </Grid>
    </>
