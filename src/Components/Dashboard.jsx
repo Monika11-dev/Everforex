@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     tableBack: {
       backgroundColor: "white !important", 
       padding: "13px 30px !important",
-      margin: "5px 20px !important",
+      margin: "5px 2px 5px 20px !important",
       boxShadow: "0px 0px 6px #EDEDED7C",
       border: "1px solid #07399219",
       borderRadius: 2,
@@ -314,7 +314,7 @@ const useStyles = makeStyles({
       },
     },
     accountTabpanel: {
-      padding:"10px !important",
+      padding:"10px 0px !important",
     },
     Status: {
       '& label': {
